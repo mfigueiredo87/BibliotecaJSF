@@ -1,0 +1,128 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Requisição</div>
+				</div>
+			 
+			</div>
+			</div>
+			
+			<br/>
+		<f:metadata>
+			<o:viewParam name="requisicao" value="#{cadastroRequisicaoBean.requisicao}" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Nova requisição" icon="ui-icon-person"
+						id="botaoNovo" action="/requisicao/CadastroRequisicao.xhtml" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar" icon="ui-icon-folder-collapsed"
+						id="botaoPesquisa" action="#{pesquisaRequisicaoBean.pesquisar}"
+						update="requisicaosTable" />
+				</p:toolbarGroup>
+				
+			</p:toolbar>
+						
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			
+			<!--  
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px" id="tabView">
+					<p:tab title="Dados da pesquisa (Requisitado ou Devolvido)">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+
+							<p:outputLabel value="Estado" for="estado" />
+							<p:inputText id="estado" size="100"
+								value="#{pesquisaRequisicaoBean.estado}" />
+
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>-->
+
+			<p:dataTable value="#{pesquisaRequisicaoBean.requisicaoFiltrados}"
+				var="requisicao" id="requisicaosTable"
+				emptyMessage="Nenhuma requisição encontrado." rows="10"
+				style="margin-top: 30px" paginator="true"
+				paginatorAlwaysVisible="true" paginatorPosition="bottom">
+
+				<p:column style="width:40px" headerText="Ver">
+					<p:rowToggler />
+				</p:column>
+				
+				<p:column headerText="Benificiário">
+					<h:outputText value="#{requisicao.cliente.nome}" />
+				</p:column>
+				<p:column headerText="Título" priority="2">
+					<h:outputText value="#{requisicao.livro.titulo}" />
+				</p:column>
+				<p:column headerText="Data de Requisição">
+					<h:outputText value="#{requisicao.dataRequisicao}" />
+				</p:column>
+			
+				<p:column headerText="Acão" style="width: 100px; text-align: center">
+					<p:button outcome="CadastroRequisicao" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="requisicao" value="#{requisicao.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show();" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaRequisicaoBean.requisicaoSelecionado}"
+							value="#{requisicao}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:rowExpansion>
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+						styleClass="panelgrid-noborder">
+						
+						<h:outputText value="Beneficiário:" />
+						<h:outputText value="#{requisicao.cliente.nome}" />
+						
+						<h:outputText value="Beneficiário:" />
+						<h:outputText value="#{requisicao.livro.titulo}" />
+						
+						<h:outputText value="Estado:" />
+						<h:outputText value="#{requisicao.estado}" />
+						
+						<h:outputText value="Data de Requisição" />
+						<h:outputText value="#{requisicao.dataRequisicao}" />
+
+						<h:outputText value="Data de Devolução:" />
+						<h:outputText value="#{requisicao.dataDevolucao}" />					
+
+					</p:panelGrid>
+				</p:rowExpansion>
+			</p:dataTable>
+
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir a requisição #{pesquisaRequisicaoBean.requisicaoSelecionado.estado}?"
+				header="Exclusão de requisição" severity="alert">
+				<p:commandButton value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton value="Sim" update=":frmPesquisa:requisicaosTable"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaRequisicaoBean.excluir}" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

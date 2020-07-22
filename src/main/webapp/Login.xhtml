@@ -1,0 +1,67 @@
+<ui:composition template="/WEB-INF/template/LayoutLogin.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{loginBean.preRender}" type="preRenderView" />
+		</f:metadata>
+
+		<div class="flex-center">
+			<div class="app-header"></div>
+			<div class="app-body">
+				<div class="loader-container text-center">
+					<div class="icon">
+						<div class="sk-folding-cube">
+							<div class="sk-cube1 sk-cube"></div>
+							<div class="sk-cube2 sk-cube"></div>
+							<div class="sk-cube4 sk-cube"></div>
+							<div class="sk-cube3 sk-cube"></div>
+						</div>
+					</div>
+					<div class="title">Logging in...</div>
+				</div>
+				<div class="app-block">
+					<div class="app-form">
+						<div class="form-header">
+							<div class="app-brand">
+								<span class="highlight">SG</span>Biblioteca
+							</div>
+						</div>
+						<h:form id="frm" prependId="false">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1"> <i
+									class="fa fa-user" aria-hidden="true"></i></span>
+
+								<p:inputText styleClass="form-control" placeholder="email"
+									aria-describedby="basic-addon1" id="j_username"
+									value="#{loginBean.email}" required="true" size="30" />
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon2"> <i
+									class="fa fa-key" aria-hidden="true"></i></span>
+
+								<p:password id="j_password" required="true" size="30"
+									styleClass="form-control" placeholder="senha"
+									aria-describedby="basic-addon2" />
+
+							</div>
+							<div class="text-center">
+								<p:commandButton value="Entrar" action="#{loginBean.login}"
+									update="messages" ajax="false"
+									styleClass="btn btn-success btn-submit" />
+							</div>
+						</h:form>
+
+					</div>
+				</div>
+			</div>
+			<div class="app-footer"></div>
+		</div>
+
+	</ui:define>
+</ui:composition>

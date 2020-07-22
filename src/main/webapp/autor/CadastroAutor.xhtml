@@ -1,0 +1,88 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Cadastro de Autores</div>
+				</div>
+			 </div>
+			</div>
+			
+			<br/>
+		<f:metadata>
+			<o:viewParam name="autor" value="#{cadastroAutorBean.autor}" />
+		</f:metadata>
+
+		<h:form id="frmCadastro" enctype="multipart/form-data">
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" icon="ui-icon-disk" update="@form"
+						id="botaoSalvar" action="#{cadastroAutorBean.salvar}" ajax="false" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" icon="ui-icon-folder-collapsed"
+						outcome="/autor/PesquisaAutores.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px">
+					<p:tab title="Dados básicos">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" required="true"
+								requiredMessage="Nome é obrigatório!"
+								value="#{cadastroAutorBean.autor.nome}">
+							</p:inputText>
+							
+							<p:outputLabel value="Telefone" for="telef" />
+							<p:inputMask id="telef" required="true"
+								requiredMessage="Telefone é obrigatório!"
+								value="#{cadastroAutorBean.autor.telefone}"
+								mask="(999)-999-999">
+							</p:inputMask>
+							
+							<p:outputLabel value="Nacionalidade" for="nac" />
+							<p:inputMask id="nac" value="#{cadastroAutorBean.autor.nacionalidade}"
+								title="Nacionalidade inválida!"> 
+								<p:tooltip showEvent="focus" hideEvent="blur" />
+							</p:inputMask>
+							
+								<p:outputLabel value="E-mail" for="email" />
+							<p:inputMask id="email" 
+								requiredMessage="E-mail é obrigatório!"
+								value="#{cadastroAutorBean.autor.email}">
+							</p:inputMask>
+							
+												
+							<p:outputLabel value="Endereço" for="endereco" />
+							<p:selectOneMenu id="endereco" filter="true"
+								filterMatchMode="contains" required="true"
+								requiredMessage="endereco é obrigatório!"
+								value="#{cadastroAutorBean.autor.endereco}" converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemLabel="Selecione a endereço" />
+								<f:selectItems value="#{cadastroAutorBean.enderecos}"
+									var="endereco" itemLabel="#{endereco.nome}"
+									itemValue="#{endereco}" />
+							</p:selectOneMenu>
+													
+
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

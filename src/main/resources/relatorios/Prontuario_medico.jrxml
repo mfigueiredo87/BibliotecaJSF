@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Prontuario_medico" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="template.engine" value="tabular_template"/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[Y2xpbmljYS5wZXNzb2EgLDM4NSwyNTAsMzI3NjJiNjAtMjZlMy00Nzk3LWJlZDQtZWU0YjM1NjI1
+ZGNjO2NsaW5pY2EubWVkaWNvICwxODcsMTcyLGM0NmFmZjhmLTIwNGItNDZmNy1hNWVlLTE0NDYw
+OWZhN2IyODtjbGluaWNhLnByb250dWFyaW8gLDE1LDE1LGUxNzM3YTE1LTA3NWMtNDUyOC04ZDVm
+LWZlMjZmMmExZjA4YjtjbGluaWNhLnBhY2llbnRlICwxODcsMzQxLDVlM2ZiY2VjLTQ2ZWYtNGY2
+Zi1hMGFhLWQ1NWM5Zjc1ZDAzZDs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="clinica"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="17f2417d-3fa6-43d5-a194-58dc7572379d">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="clinica"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT clinica.paciente.codigo,
+	clinica.pessoa.nome,
+	clinica.pessoa.sexo,
+	clinica.pessoa.celular,
+	clinica.pessoa.endereco,
+	clinica.pessoa.data_nascimento,
+	clinica.pessoa.`TIPO_PESSOA`,
+	clinica.prontuario.data_exame,
+	clinica.prontuario.descricao,
+	clinica.prontuario.diabetico,
+	clinica.prontuario.temperatura,
+	clinica.prontuario.`tipoSanguineo`
+FROM clinica.prontuario
+	INNER JOIN clinica.medico ON 
+	 clinica.prontuario.codigo_medico = clinica.medico.codigo 
+	INNER JOIN clinica.paciente ON 
+	 clinica.prontuario.codigo_paciente = clinica.paciente.codigo 
+	INNER JOIN clinica.pessoa ON 
+	 clinica.paciente.codigo = clinica.pessoa.codigo 
+	 AND clinica.medico.codigo = clinica.pessoa.codigo 
+WHERE 
+	 clinica.pessoa.`TIPO_PESSOA` = 'medico' 
+	 AND clinica.pessoa.`TIPO_PESSOA` = 'paciente']]>
+		</queryString>
+		<field name="codigo" class="java.lang.Long"/>
+		<field name="nome" class="java.lang.String"/>
+		<field name="sexo" class="java.lang.String"/>
+		<field name="celular" class="java.lang.String"/>
+		<field name="endereco" class="java.lang.String"/>
+		<field name="data_nascimento" class="java.sql.Date"/>
+		<field name="data_exame" class="java.sql.Date"/>
+		<field name="descricao" class="java.lang.String"/>
+		<field name="diabetico" class="java.lang.String"/>
+		<field name="temperatura" class="java.lang.String"/>
+		<field name="tipoSanguineo" class="java.lang.String"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="196" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="90" width="84" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bill to:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="115" width="120" height="15" uuid="33274f5d-5b7e-4be2-a2ff-65d452a618ed"/>
+				<text><![CDATA[ABC Company]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="130" width="120" height="15" uuid="1d3045ed-03d6-4253-a959-aeeb491b73ca"/>
+				<text><![CDATA[Company Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="145" width="120" height="15" uuid="235bf8b6-1e1e-49c7-b59f-7a46c30b8209"/>
+				<text><![CDATA[Company state1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="120" height="15" uuid="665f25c2-8663-4951-b699-1ab863bdeb76"/>
+				<text><![CDATA[Company state 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="145" width="120" height="15" uuid="b62092ec-9053-4f27-b387-9b25d2909a68"/>
+				<text><![CDATA[Ship state1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="115" width="120" height="15" uuid="edbd74ac-0cbd-44c9-8a8e-ccf745191172"/>
+				<text><![CDATA[Ship name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="90" width="84" height="25" uuid="139ebe8d-25b0-411e-986c-270015400874">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ship to:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="160" width="120" height="15" uuid="dd52166a-1135-4931-adef-51e7972118bc"/>
+				<text><![CDATA[Ship state 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="130" width="120" height="15" uuid="2d2f365d-7b12-4a8f-990d-ff528a2660bc"/>
+				<text><![CDATA[Ship Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="10" width="50" height="20" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="10" width="84" height="20" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center">
+				<reportElement x="0" y="0" width="65" height="60" uuid="94883631-a913-43e2-b182-ab8d77d0181e"/>
+				<imageExpression><![CDATA["invoice_logo.png"]]></imageExpression>
+			</image>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="30" width="84" height="20" uuid="3836ce65-eca3-4cad-a6de-b1818def0a2b"/>
+				<textFieldExpression><![CDATA["INV0001"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="30" width="50" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Invoice #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Your company name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
+				<text><![CDATA[Phone number, web address, ecc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
+				<text><![CDATA[Street address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
+				<text><![CDATA[City, street, ZIP code]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="293" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="150" width="261" height="101" uuid="1a0d7088-5af7-4865-8be1-41ec5f51fb36"/>
+				<box>
+					<topPen lineWidth="1.1" lineStyle="Dashed"/>
+					<leftPen lineWidth="1.1" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.1" lineStyle="Dashed"/>
+					<rightPen lineWidth="1.1" lineStyle="Dashed"/>
+				</box>
+				<text><![CDATA[Your notes here]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="263" width="556" height="30" backcolor="#E6E8E9" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="9" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[THANKYOU FOR YOUR BUSINESS]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="130" uuid="6faef207-219a-47d5-aa1d-55bb75022df4">
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tableDataset" uuid="2eaacdd3-3bc9-4cdf-9525-4063e13e717e">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50" uuid="e98e8cc2-99ff-4ebf-a41d-190f9fe5516b">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="e21a8f81-e238-4dae-aa3c-5f1eba53fb82"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[codigo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="ff7e55bf-9357-4a14-ae3c-25d67ada852d"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="73078342-4ce1-4eff-a3ca-5c3de29e6d7c">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="4bfd4dd7-92c5-4b46-97eb-153365569fa3"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[nome]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="c1304978-1c7c-48bc-b5dd-f255fa294925"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="346ca9ff-4345-4daa-8df6-1623712d8df1">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="50ddb98d-270f-474a-a22a-7ee7df28370a"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[sexo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="47695603-4cdd-4edd-a44a-0c75b99e6aa0"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="6e4ffc58-ab68-4dae-8747-a608979f44f2">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="9280322f-adcc-440d-a7b1-16c2d9ffec4e"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[celular]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="42675029-5abe-481c-b556-e1ee6010cf2c"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="e42a2c0d-014f-4d68-a5a8-a27f844c62aa">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="89fdd0be-eebd-47f8-b3a1-8cf405e26c9c"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[endereco]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="239f23db-bacf-4aed-8442-d19f315e5fb2"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="7132b759-87e1-4ea1-9ee6-28b970c35662">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="2a9d0538-deb9-45b3-a158-9568990fee61"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[data_nascimento]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="f3d1fcfc-fb77-4da6-96ad-d0ba745a33dd"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{data_nascimento}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="1156a2e3-d287-4d9f-8ad5-e78cfa9974e1">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="fb62c826-4495-4af4-b0da-b42d09e63f5b"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[data_exame]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="d23f2b60-e6de-49e1-a9da-bb6cbc7d6e51"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{data_exame}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="a135ccf7-9fce-481b-8959-48315ac05869">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="7a6464d3-02a0-4f89-99b0-24827ff2768a"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[descricao]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="3c30a6e3-f584-4e25-aec4-e861a97de445"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="64887aa0-acf6-4969-b543-43650a43b357">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="06784956-3906-404f-b579-e653f350a412"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[diabetico]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="92db5e54-7e2a-4539-99ac-383c22098c6d"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{diabetico}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="62ef1fb0-b12b-48ca-b7d3-54d975d87342">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="35c2a13f-8307-4bf0-b2b3-e850a703aa63"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[temperatura]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="e7f10856-50e2-471a-ace6-956032fd060b"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{temperatura}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="1576ad57-3156-41da-b7d6-c1c8ffd7cf5d">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement key="" style="Column header" x="0" y="0" width="50" height="30" forecolor="#000000" uuid="ea5858ec-2156-465b-bd73-3bc61e6ea20b"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[tipoSanguineo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement style="Detail" x="0" y="0" width="50" height="30" uuid="3770f415-eee5-4c1e-b53e-f2245255eccd"/>
+								<box leftPadding="2"/>
+								<textElement>
+									<font fontName="DejaVu Sans" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tipoSanguineo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,241 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</f:facet>
+
+	<title>Gestão Biblioteca</title>
+
+	<h:outputStylesheet library="css" name="skins/skin-blue.min.css" />
+	<h:outputStylesheet library="css" name="blue-sky.css" />
+	<h:outputStylesheet library="css" name="blue.css" />
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="flat-admin.css" />
+	<h:outputStylesheet library="css" name="red.css" />
+	<h:outputStylesheet library="css" name="vendor.css" />
+	<h:outputStylesheet library="css" name="yellow.css" />
+
+	<h:outputScript target="body" library="primefaces"
+		name="jquery/jquery.js" />
+	<h:outputScript target="body" library="js" name="app.js" />
+	<h:outputScript target="body" library="js" name="vendor.js" />
+
+</h:head>
+
+<body>
+
+	<div class="app app-default">
+
+		<!-- Menu Lateral -->
+		<aside class="app-sidebar" id="sidebar">
+
+			<div class="sidebar-header">
+				<a class="sidebar-brand" href="/Home.xhtml"> <h:graphicImage
+						library="sistemaweb" name="images/book.png" height="100%"
+						outcome="/Home.xhtml" />
+				</a> 
+				<button type="button" class="sidebar-toggle">
+					<i class="fa fa-times"></i>
+				</button>
+			</div>
+			<div class="sidebar-header">
+				<a class="sidebar-brand" href="#"><span class="highlight">SG
+				</span> Biblioteca</a>
+				<button type="button" class="sidebar-toggle">
+					<i class="fa fa-times"></i>
+				</button>
+			</div>
+			<div class="sidebar-menu">
+				<ul class="sidebar-nav">
+					<li class="active"><h:link outcome="/Home.xhtml">
+							<div class="icon">
+								<i class="fa fa-home" aria-hidden="true"></i>
+							</div>
+							<div class="title">Home</div>
+						</h:link></li>
+							<li class="dropdown "><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">
+							<div class="icon">
+								<i class="fa fa-cube" aria-hidden="true"></i>
+							</div>
+							<div class="title">Cadastros</div>
+					</a>
+						<div class="dropdown-menu">
+							<ul>
+								<li class="section"><i class="fa fa-folder-open"
+									aria-hidden="true"></i> Cadastro</li>
+
+								<li><h:link
+										outcome="/endereco/PesquisaEnderecos.xhtml">
+										<i class="fa  fa-map"></i> Endereços</h:link></li>
+								<li><h:link outcome="/autor/PesquisaAutores.xhtml">
+										<i class="fa  fa-user"></i> Autor </h:link></li>
+								<li><h:link
+										outcome="/editora/PesquisaEditoras.xhtml">
+										<i class="fa  fa-file"></i> Editora</h:link></li>
+								<li><h:link outcome="/livro/PesquisaLivros.xhtml">
+										<i class="fa  fa-book"></i> Livro</h:link></li>
+								<li><h:link outcome="/cliente/PesquisaClientes.xhtml">
+										<i class="fa  fa-group"></i> Cliente</h:link></li>
+								<li class="line"></li>
+								<li class="section"><i class="fa fa-group (alias)"
+									aria-hidden="true"></i>Administrador</li>
+								<li><h:link outcome="/usuarios/PesquisaUsuarios.xhtml">
+										<i class="fa  fa-user"></i> Utilizador
+								</h:link></li>
+
+
+							</ul>
+						</div></li>
+									
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">
+							<div class="icon">
+								<i class="fa fa-book" aria-hidden="true"></i>
+							</div>
+							<div class="title">Requisições</div>
+					</a>
+						<div class="dropdown-menu">
+							<ul>
+								<li class="section"><i class="fa fa-file-o"
+									aria-hidden="true"></i> Livros</li>
+								<li><h:link outcome="/requisicao/PesquisaRequisicoes.xhtml">
+										<i class="fa  fa-file"></i> Requisitar
+								</h:link></li>
+
+								<li class="line"></li>
+								<li class="section"><i class="fa fa-file"
+									aria-hidden="true"></i> Livros</li>
+								<li><h:link outcome="/requisicao/PesquisaDevolvidos.xhtml">
+										<i class="fa  fa-file-o"></i> Devolver
+								</h:link></li>
+							</ul>
+						</div></li>
+						
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">
+							<div class="icon">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</div>
+							<div class="title">Consultas</div>
+					</a>
+						<div class="dropdown-menu">
+							<ul>
+								<li class="section"><i class="fa fa-file-o"
+									aria-hidden="true"></i> Livros</li>
+								<li><h:link outcome="/consulta/PesquisaRequisitados.xhtml">
+										<i class="fa  fa-file"></i> Requisitados
+								</h:link></li>
+
+								<li class="line"></li>
+								<li class="section"><i class="fa fa-file"
+									aria-hidden="true"></i> Livros</li>
+								<li><h:link outcome="/consulta/PesquisaDevolucoes.xhtml">
+										<i class="fa  fa-file-o"></i> Devolvidos
+								</h:link></li>
+							</ul>
+						</div></li>
+					 
+				</ul>
+			</div>
+			<!-- Logo da republica -->
+			<div class="sidebar-footer">
+				<ul class="menu">
+					
+					<li style="color:#458;">Alexandre Lende</li>
+				</ul>
+			</div>
+		</aside>
+
+		<!-- fim menu natural -->
+
+		<script type="text/ng-template" id="sidebar-dropdown.tpl.html">
+ 
+</script>
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="app-container">
+
+				<nav class="navbar navbar-default" id="navbar">
+
+					<div class="container-fluid">
+						<div class="navbar-collapse collapse in">
+
+							<ul class="nav navbar-nav navbar-mobile">
+								<li>
+									<button type="button" class="sidebar-toggle">
+										<i class="fa fa-bars"></i>
+									</button>
+								</li>
+								<li class="logo"><a class="navbar-brand" href="#"><span
+										class="highlight">SG</span> Biblioteca</a></li>
+								<li>
+									<button type="button" class="navbar-toggle">
+										<img class="profile-img" src="sistemaweb/images/admn.png"></img>
+									</button>
+								</li>
+							</ul>
+
+							<ul class="nav navbar-nav navbar-left">
+								<li class="navbar-title"></li>
+								<h2 style="font-weight:bold; font-size:34px; font-family: Arial, Helvetica, sans-serif;
+	text-shadow: 3px 2px 2px grey; text-transform: uppercase; color:blue;">Sistema de Gestão de Biblioteca - ISPO</h2>
+							</ul>
+							<ul class="nav navbar-nav navbar-right">			
+								<span><h4 style="color:blue;">Olá! <span style="color:#256;">#{seguranca.nomeUsuario}</span> </h4></span>
+								<li class="dropdown profile"><a
+									href="#" class="dropdown-toggle"
+									data-toggle="dropdown"> 
+									<h:graphicImage class="profile-img"
+						library="sistemaweb" name="images/admn.png" height="30%"/>
+									 
+								<div class="title">Perfil</div>
+								</a>
+									<div class="dropdown-menu">
+										
+										<ul class="action">
+											
+											<li><p:menubar style="border-style: none; ">
+													<p:menuitem value="Clique Para Terminar Sessão"  url="/j_spring_security_logout" />
+												</p:menubar></li>
+										</ul>
+									</div></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+
+				<!-- Corpo da aplicacao -->
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="card card-mini">
+
+							<ui:insert name="corpo" />
+
+						</div>
+					</div>
+
+				</div>
+
+
+				<footer class="app-footer">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="footer-copyright">Biblioteca ISPC Direitos Reservados <a href="#" target="_blank">Alexandre Lende</a> © 2020</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+
+		</section>
+	</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Cadastro de Requisições</div>
+				</div>
+			 </div>
+			</div>
+			
+			<br/>
+		<f:metadata>
+			<o:viewParam name="requisicao" value="#{cadastroRequisitadoBean.requisicao}" />
+		</f:metadata>
+
+		<h:form id="frmCadastro" enctype="multipart/form-data">
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" icon="ui-icon-disk" update="@form"
+						id="botaoSalvar" action="#{cadastroRequisitadoBean.salvar}" ajax="false" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" icon="ui-icon-folder-collapsed"
+						outcome="/requisicao/PesquisaDevolvidos.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px">
+					<p:tab title="Dados básicos">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+									
+							<p:outputLabel value="Livro" for="livro" />
+							<p:selectOneMenu id="livro" required="true"
+								requiredMessage="Livro é obrigatório!"
+								value="#{cadastroRequisitadoBean.requisicao.livro}" converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemLabel="Selecione o Livro" />
+								<f:selectItems value="#{cadastroRequisitadoBean.livros}" var="livro"
+									itemLabel="#{livro.titulo}" itemValue="#{livro}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Estado" for="estado" />
+							<p:selectOneMenu id="estado" required="true"
+								requiredMessage="Estado é obrigatório!"
+								value="#{cadastroRequisitadoBean.requisicao.estado}">
+								<f:selectItem itemLabel="Selecione o Livro" />
+								<f:selectItems value="#{cadastroRequisitadoBean.estados}" var="estado"
+									itemLabel="#{estado.descricao}" itemValue="#{estado}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Beneficiário" for="cliente" />
+							<p:selectOneMenu id="cliente" filter="true"
+								filterMatchMode="contains" required="true"
+								requiredMessage="Nome do Beneficiário é obrigatório!"
+								value="#{cadastroRequisitadoBean.requisicao.cliente}" converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemLabel="Selecione a Beneficiário" />
+								<f:selectItems value="#{cadastroRequisitadoBean.clientes}"
+									var="cliente" itemLabel="#{cliente.nome}"
+									itemValue="#{cliente}" />
+							</p:selectOneMenu>
+													
+							<p:outputLabel value="Data de Devolução" for="dataDevolucao" />
+							<p:calendar id="dataDevolucao" required="true"
+								requiredMessage="Data de devolução é obrigatório!"
+								value="#{cadastroRequisitadoBean.requisicao.dataDevolucao}"
+								pattern="dd/MM/yyyy HH:mm:ss" mask="99/99/9999" >
+							</p:calendar>												
+
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

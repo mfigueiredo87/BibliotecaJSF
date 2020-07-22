@@ -1,0 +1,136 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Livros</div>
+				</div>
+			 
+			</div>
+			</div>
+			
+			<br/>
+		<f:metadata>
+			<o:viewParam name="livro" value="#{cadastroLivroBean.livro}" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Novo Livro" icon="ui-icon-person"
+						id="botaoNovo" action="/livro/CadastroLivro.xhtml" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisa" icon="ui-icon-folder-collapsed"
+						id="botaoPesquisa" action="#{pesquisaLivroBean.pesquisar}"
+						update="livrosTable" />
+				</p:toolbarGroup>
+				
+			</p:toolbar>
+						
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px" id="tabView">
+					<p:tab title="Dados de busca">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+
+							<p:outputLabel value="Título" for="titulo" />
+							<p:inputText id="titulo" size="100"
+								value="#{pesquisaLivroBean.titulo}" />
+
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+
+			<p:dataTable value="#{pesquisaLivroBean.livrosFiltrados}"
+				var="livro" id="livrosTable"
+				emptyMessage="Nenhum livro encontrado." rows="10"
+				style="margin-top: 30px" paginator="true"
+				paginatorAlwaysVisible="true" paginatorPosition="bottom">
+
+				<p:column style="width:40px" headerText="Ver">
+					<p:rowToggler />
+				</p:column>
+				
+				<p:column headerText="Título">
+					<h:outputText value="#{livro.titulo}" />
+				</p:column>
+				<p:column headerText="Autor" priority="2">
+					<h:outputText value="#{livro.autor.nome}" />
+				</p:column>
+				<p:column headerText="Estilo">
+					<h:outputText value="#{livro.estilo}" />
+				</p:column>
+			
+				<p:column headerText="Acão" style="width: 100px; text-align: center">
+					<p:button outcome="CadastroLivro" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="livro" value="#{livro.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show();" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaLivroBean.livroSelecionado}"
+							value="#{livro}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:rowExpansion>
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+						styleClass="panelgrid-noborder">
+
+						<h:outputText value="Título " />
+						<h:outputText value="#{livro.titulo}" />
+						
+						<h:outputText value="Nº Páginas" />
+						<h:outputText value="#{livro.paginas}" />
+						
+						<h:outputText value="Edição" />
+						<h:outputText value="#{livro.edicao} ª" />
+
+						<h:outputText value="ISBN:" />
+						<h:outputText value="#{livro.isbn}" />
+						
+						<h:outputText value="Estilo" />
+						<h:outputText value="#{livro.estilo}" />
+						
+						<h:outputText value="Autor" />
+						<h:outputText value="#{livro.autor.nome}" />
+						
+						<h:outputText value="Autor" />
+						<h:outputText value="#{livro.editora.nome}" />
+
+						<h:outputText value="Data de Lançamento" />
+						<h:outputText value="#{livro.dataLancamento}" />					
+
+					</p:panelGrid>
+				</p:rowExpansion>
+			</p:dataTable>
+
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir o livro #{pesquisaLivroBean.livroSelecionado.titulo}?"
+				header="Exclusão de livro" severity="alert">
+				<p:commandButton value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton value="Sim" update=":frmPesquisa:livrosTable"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaLivroBean.excluir}" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

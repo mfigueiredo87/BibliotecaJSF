@@ -1,0 +1,128 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Autores</div>
+				</div>
+			 
+			</div>
+			</div>
+			
+			<br/>
+		<f:metadata>
+			<o:viewParam name="autor" value="#{cadastroAutorBean.autor}" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Novo Autor" icon="ui-icon-person"
+						id="botaoNovo" action="/autor/CadastroAutor.xhtml" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisa" icon="ui-icon-folder-collapsed"
+						id="botaoPesquisa" action="#{pesquisaAutorBean.pesquisar}"
+						update="autorsTable" />
+				</p:toolbarGroup>
+				
+			</p:toolbar>
+						
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px" id="tabView">
+					<p:tab title="Dados de busca">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" size="100"
+								value="#{pesquisaAutorBean.nome}" />
+
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+
+			<p:dataTable value="#{pesquisaAutorBean.autoresFiltrados}"
+				var="autor" id="autorsTable"
+				emptyMessage="Nenhum autor encontrado." rows="10"
+				style="margin-top: 30px" paginator="true"
+				paginatorAlwaysVisible="true" paginatorPosition="bottom">
+
+				<p:column style="width:50px" headerText="Ver">
+					<p:rowToggler />
+				</p:column>
+				
+				<p:column headerText="Nome">
+					<h:outputText value="#{autor.nome}" />
+				</p:column>
+				<p:column headerText="Endereço" priority="2">
+					<h:outputText value="#{autor.endereco.nome}" />
+				</p:column>
+				<p:column headerText="Telefone">
+					<h:outputText value="#{autor.telefone}" />
+				</p:column>
+			
+				<p:column headerText="Acão" style="width: 100px; text-align: center">
+					<p:button outcome="CadastroAutor" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="autor" value="#{autor.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show();" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaAutorBean.autorSelecionado}"
+							value="#{autor}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:rowExpansion>
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+						styleClass="panelgrid-noborder">
+
+						<h:outputText value="Nome " />
+						<h:outputText value="#{autor.nome}" />
+						
+						<h:outputText value="Nacionalidade" />
+						<h:outputText value="#{autor.nacionalidade}" />
+						
+						<h:outputText value="E-mail:" />
+						<h:outputText value="#{autor.email}" />
+						
+						<h:outputText value="Telefone:" />
+						<h:outputText value="#{autor.telefone}" />
+						
+						<h:outputText value="Endereço" />
+						<h:outputText value="#{autor.endereco.nome}" />
+				
+
+					</p:panelGrid>
+				</p:rowExpansion>
+			</p:dataTable>
+
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir o autor #{pesquisaAutorBean.autorSelecionado.nome}?"
+				header="Exclusão de autor" severity="alert">
+				<p:commandButton value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton value="Sim" update=":frmPesquisa:autorsTable"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaAutorBean.excluir}" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

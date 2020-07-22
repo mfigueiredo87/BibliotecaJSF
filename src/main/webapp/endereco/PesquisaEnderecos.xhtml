@@ -1,0 +1,89 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="corpo">
+		
+			<div class="card card-banner card-chart card-green no-br">
+			<div class="card-header">
+				<div class="card-title">
+					<div class="title">Endereços</div>
+				</div>
+			 
+			</div>
+			</div>
+			
+			<br/>
+
+		<h:form id="frmPesquisa">
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Novo Endereço" icon="ui-icon-plus" 
+						id="botaoNovo" action="/endereco/CadastroEndereco.xhtml" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisa" icon="ui-icon-folder-collapsed"
+						id="botaoPesquisa" action="#{pesquisaEnderecoBean.pesquisar}"
+						update="meTable" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			
+			<div class="ui-fluid">
+				<p:tabView style="margin-top: 10px" id="tabView">
+					<p:tab title="Dados de busca">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+							styleClass="panelgrid-noborder">
+
+							<p:outputLabel value="Nome" for="nome" />
+							<p:inputText id="nome" size="100"
+								value="#{pesquisaEnderecoBean.nome}" />
+							
+						</p:panelGrid>
+					</p:tab>
+				</p:tabView>
+			</div>
+
+			<p:dataTable id="meTable"
+				value="#{pesquisaEnderecoBean.enderecosFiltrados}"
+				var="endereco" emptyMessage="Nenhum endereço encontrado."
+				rows="5" style="margin-top: 30px" paginator="true"
+				paginatorAlwaysVisible="true" paginatorPosition="bottom">
+
+				<p:column headerText="Nome" sortBy="#{endereco.nome}">
+					<h:outputText value="#{endereco.nome}" />
+				</p:column>
+
+				<p:column headerText="Acão" style="width: 100px; text-align: center">
+					<p:button outcome="CadastroEndereco" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="endereco" value="#{endereco.codigo}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show();" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaEnderecoBean.enderecoSelecionado}"
+							value="#{endereco}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog responsive="true" id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir o endereço #{pesquisaEnderecoBean.enderecoSelecionado.nome}?"
+				header="Exclusão de endereço" severity="alert">
+				<p:commandButton value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton value="Sim" update=":frmPesquisa:meTable"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaEnderecoBean.excluir}" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
